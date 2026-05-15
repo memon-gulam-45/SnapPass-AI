@@ -49,9 +49,13 @@ app.use(notFound);
 app.use(errorHandler);
 
 // ── Start Server ───────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`✅  SnapPass AI backend running on http://localhost:${PORT}`);
-  console.log(`🤖  AI Service URL: ${process.env.AI_SERVICE_URL}`);
-});
+// On Vercel (serverless), we don't call app.listen().
+// Vercel exports the app and handles the server lifecycle.
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`✅  SnapPass AI backend running on http://localhost:${PORT}`);
+    console.log(`🤖  AI Service URL: ${process.env.AI_SERVICE_URL}`);
+  });
+}
 
 module.exports = app;
