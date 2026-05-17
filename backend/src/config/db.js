@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
-
+import { config } from "./config.js";
 const connectDatabase = async () => {
-  const mongoUri = process.env.MONGO_URI;
-
-  if (!mongoUri) {
-    throw new Error("MONGO_URI is not set in environment variables.");
-  }
+  const mongoUri = config.MONGO_URI;
 
   // basic error handling, Update it later. 
   mongoose.connection.on("connected", () => {

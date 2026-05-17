@@ -1,8 +1,5 @@
-/**
- * SnapPass AI - Express App
- */
-
 import express from 'express';
+import { config } from './config/config.js';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -14,21 +11,17 @@ import imageRoutes from './routes/image.routes.js';
 import printRoutes from './routes/print.routes.js';
 
 import errorMiddleware from './middleware/error.middleware.js';
-import connectDatabase from './config/db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-connectDatabase().catch((error) => {
-  console.error("Failed to connect to MongoDB:", error.message);
-});
 
 app.use(helmet());
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    origin: config.CORS_ORIGIN,
     credentials: true,
   })
 );
