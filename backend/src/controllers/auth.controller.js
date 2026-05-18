@@ -1,6 +1,7 @@
 import * as authService  from "../service/auth.service.js";
 import { setToken } from "../utils/setToken.js";
 import catchAsync from "../utils/catchAsync.js";
+import { config } from "../config/config.js";
 
 const sendResponse = (res, statusCode, success, message, data) => {
     res.status(statusCode).json({
@@ -44,9 +45,10 @@ export const getMe = catchAsync(async (req, res) => {
 });
 
 export const logout = catchAsync(async (req, res) => {
+    const isProduction = config.NODE_ENV === "production";
     res.clearCookie("token", {
         httpOnly: true,
-        secure: true,
+        secure: isProduction,
         sameSite: "none",
         maxAge: 0
     });
